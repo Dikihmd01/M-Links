@@ -45,6 +45,7 @@
         android:layout_marginBottom="35dp"
         android:backgroundTint="@color/text_gelap"
         android:hint="Password"
+        android:inputType="textPassword"
         android:textColor="@color/text_gelap"
         android:textColorHint="@color/text_gelap"
         app:passwordToggleEnabled="true"
