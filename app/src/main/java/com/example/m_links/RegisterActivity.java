@@ -1,7 +1,9 @@
 package com.example.m_links;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -28,6 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton = (Button) findViewById(R.id.btn_register);
         loginButton = (TextView) findViewById(R.id.btn_login);
         dbHelper = new DBHelper(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,26 +43,78 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), "Field tidak boleh kosong", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    if (getPassword.equals(getConfirmPassword)) {
-                        Boolean checkUser = dbHelper.checkUsername(getUsername);
-                        if (checkUser == false) {
-                            Boolean insert = dbHelper.insertAuth(getUsername, getPassword);
-                            if (insert == true) {
-                                Toast.makeText(RegisterActivity.this, "Selamat, anda telah terdaftar di M-Links!", Toast.LENGTH_LONG).show();
-
-                                Intent route = new Intent(RegisterActivity.this, LoginActivity.class);
-                                startActivity(route);
-                            }
-                            else {
-                                Toast.makeText(RegisterActivity.this, "Oops.. terjadi kesalahan. Silahkan coba lagi!", Toast.LENGTH_LONG).show();
-                            }
+                    if (getUsername.length() >= 8 || getPassword.length() >= 8 || getConfirmPassword.length() >= 8) {
+                        if (getUsername.equals(getPassword)) {
+                            builder.setTitle("Peringatan!")
+                                    .setMessage("Username dan password tidak boleh sama!")
+                                    .setCancelable(false)
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.cancel();
+                                        }
+                                    }).show();
                         }
                         else {
-                            Toast.makeText(RegisterActivity.this, "Username telah terdaftar, sialhkan logiin!", Toast.LENGTH_LONG).show();
+                            if (getPassword.equals(getConfirmPassword)) {
+                                Boolean checkUser = dbHelper.checkUsername(getUsername);
+                                if (checkUser == false) {
+                                    Boolean insert = dbHelper.insertAuth(getUsername, getPassword);
+                                    if (insert == true) {
+                                        Toast.makeText(RegisterActivity.this,
+                                                "Selamat, anda telah terdaftar di M-Links!",
+                                                Toast.LENGTH_LONG).show();
+
+                                        Intent route = new Intent(RegisterActivity.this, LoginActivity.class);
+                                        startActivity(route);
+                                    }
+                                    else {
+                                        builder.setTitle("Peringatan!")
+                                                .setMessage("Oops.. terjadi kesalahan. Silahkan coba lagi!")
+                                                .setCancelable(false)
+                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        dialogInterface.cancel();
+                                                    }
+                                                }).show();
+                                    }
+                                }
+                                else {
+                                    builder.setTitle("Peringatan!")
+                                            .setMessage("Username telah terdaftar, sialhkan login!")
+                                            .setCancelable(false)
+                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    dialogInterface.cancel();
+                                                }
+                                            }).show();
+                                }
+                            }
+                            else {
+                                builder.setTitle("Peringatan!")
+                                        .setMessage("Oops.. password tidak sama!")
+                                        .setCancelable(false)
+                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                dialogInterface.cancel();
+                                            }
+                                        }).show();
+                            }
                         }
                     }
                     else {
-                        Toast.makeText(RegisterActivity.this, "Oops.. password tidak sama!", Toast.LENGTH_LONG).show();
+                        builder.setTitle("Peringatan!")
+                                .setMessage("Username dan password kurang dari 8 karakter!")
+                                .setCancelable(false)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.cancel();
+                                    }
+                                }).show();
                     }
                 }
             }
