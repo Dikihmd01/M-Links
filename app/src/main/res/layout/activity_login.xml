@@ -15,7 +15,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="75dp"
         android:layout_marginBottom="15dp"
-        android:src="@drawable/LoginGelap" />
+        android:src="@drawable/login_gelap" />
 
     <TextView
         android:layout_width="match_parent"
