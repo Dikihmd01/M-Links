@@ -65,6 +65,10 @@ public class RegisterActivity extends AppCompatActivity {
                                                 "Selamat, anda telah terdaftar di M-Links!",
                                                 Toast.LENGTH_LONG).show();
 
+                                        username.setText("");
+                                        password.setText("");
+                                        confirmPassword.setText("");
+
                                         Intent route = new Intent(RegisterActivity.this, LoginActivity.class);
                                         startActivity(route);
                                     }

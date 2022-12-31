@@ -53,6 +53,10 @@ public class LoginActivity extends AppCompatActivity {
                     Boolean checkUserPass = dbHelper.checkUsernameAndPassword(getUsername, getPassword);
                     if (checkUserPass == true) {
                         Toast.makeText(getBaseContext(), "Anda berhasil login", Toast.LENGTH_LONG).show();
+
+                        username.setText("");
+                        password.setText("");
+
                         Intent route = new Intent(LoginActivity.this, MainActivity.class);
                         route.putExtra("displayUsername", getUsername);
                         startActivity(route);
