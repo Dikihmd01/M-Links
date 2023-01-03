@@ -19,7 +19,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String queryCreateTableAuth = "CREATE TABLE " + tableAuth + "(username TEXT PRIMARY KEY, password TEXT)";
         String queryCreateTableTools = "CREATE TABLE " + tableTools + "(" +
-                "id TEXT PRIMARY KEY, title TEXT, description TEXT, " +
+                "_id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, description TEXT, " +
                 "link TEXT, logo BLOB)";
 
         // Execute queries
@@ -37,6 +37,51 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(queryDropTableAuth);
         sqLiteDatabase.execSQL(queryDropTableTools);
         onCreate(sqLiteDatabase);
+    }
+
+    public Boolean insertData(String title, String description, String link) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("title", title);
+        contentValues.put("description", description);
+        contentValues.put("link", link);
+//        contentValues.put("logo", imageUri);
+
+        long result = database.insert("tools", null, contentValues);
+        if (result == -1) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    public Boolean updateDate(String title, String description, String link, Integer id) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("title", title);
+        contentValues.put("description", description);
+        contentValues.put("link", link);
+
+        long result = database.update("tools", contentValues, "_id=" + id, null);
+        if (result == -1) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    public Boolean deleteData(int id) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        long result = database.delete("tools", "_id=" + id, null);
+
+        if (result == -1) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     public Boolean insertAuth(String username, String password) {
@@ -78,5 +123,13 @@ public class DBHelper extends SQLiteOpenHelper {
         else {
             return false;
         }
+    }
+
+    public Cursor viewData() {
+        SQLiteDatabase database = this.getReadableDatabase();
+        String query = "SELECT * FROM " + tableTools;
+        Cursor cursor = database.rawQuery(query, null);
+
+        return cursor;
     }
 }
