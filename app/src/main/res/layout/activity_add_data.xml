@@ -32,6 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="33dp"
         android:layout_marginBottom="20dp"
+        android:textColor="@color/text_gelap"
         android:background="@drawable/search"
         android:textColorHint="@color/text_gelap" />
 
@@ -50,6 +51,7 @@
         android:layout_marginBottom="20dp"
         android:background="@drawable/deskripsi"
         android:inputType="textMultiLine"
+        android:textColor="@color/text_gelap"
         android:textColorHint="@color/text_gelap" />
 
     <TextView
@@ -66,6 +68,7 @@
         android:layout_height="33dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/search"
+        android:textColor="@color/text_gelap"
         android:textColorHint="@color/text_gelap" />
 
     <TextView
@@ -76,38 +79,51 @@
         android:textColor="@color/text_gelap"
         android:textSize="16dp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="38dp"
-        android:background="@drawable/search"
-        android:orientation="horizontal"
-        android:padding="5dp">
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="38dp"-->
+<!--        android:background="@drawable/search"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:padding="5dp">-->
 
-        <Button
-            android:id="@+id/btn_add_file"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/btn_gelap"
-            android:paddingTop="-10dp"
-            android:paddingBottom="-5dp"
-            android:text="Choose File"
-            android:textAllCaps="false"
-            android:textColor="@color/text_gelap"
-            android:textSize="14dp" />
+<!--        <Button-->
+<!--            android:id="@+id/btn_add_file"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@drawable/btn_gelap"-->
+<!--            android:paddingTop="-10dp"-->
+<!--            android:paddingBottom="-5dp"-->
+<!--            android:text="Choose File"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:textColor="@color/text_gelap"-->
+<!--            android:textSize="14dp" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="No File Selected"
-            android:textColor="@color/text_gelap" />
+<!--        <TextView-->
+<!--            android:id="@+id/nama_file"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:text="No File Selected"-->
+<!--            android:textColor="@color/text_gelap" />-->
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
 <!--    <ImageView-->
 <!--        android:id="@+id/imagePreview"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="wrap_content" />-->
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/logo"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/login_terang"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="2dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -3,16 +3,23 @@ package com.example.m_links;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -27,13 +34,17 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     TextView welcomeUser;
-    ImageView exitButton;
+    ImageView exitButton, searchButton;
     FloatingActionButton fab_add;
     Cursor cursor;
-    ListAdapter adapter;
+//    ListAdapter adapter;
     ListView appLists;
     DBHelper dbHelper;
+    ArrayList<Model> modelArrayList =new ArrayList<>();
     private int id = -1;
+
+    String[] title_list, description_list, link_list, logo_list;
+    int[] id_list;
 
 
     @Override
@@ -46,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         welcomeUser = (TextView) findViewById(R.id.nama_user);
         exitButton = (ImageView) findViewById(R.id.btn_exit);
+        searchButton = (ImageView) findViewById(R.id.btn_search);
         fab_add = (FloatingActionButton) findViewById(R.id.fab_add);
         appLists = (ListView) findViewById(R.id.list_aplikasi);
         dbHelper = new DBHelper(this);
@@ -53,99 +65,16 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        welcomeUser.setText(displayUsername + "!");
-        appLists.setSelected(true);
-        appLists.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                final CharSequence[] items = {"Edit", "Delete"};
-                builder.setTitle("Pilih Operasi")
-                        .setItems(items, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                if (i == 0) {
-                                    SQLiteDatabase db = dbHelper.getReadableDatabase();
-                                    cursor = db.rawQuery("SELECT * FROM tools", null);
-                                    cursor.moveToPosition(i);
+            public void onClick(View view) {
 
-                                    Intent routEdit = new Intent(MainActivity.this, AddDataActivity.class);
-                                    routEdit.putExtra("valueId", cursor.getInt(0));
-                                    routEdit.putExtra("valueTitle", cursor.getString(1));
-                                    routEdit.putExtra("valueDescription", cursor.getString(2));
-                                    routEdit.putExtra("valueLink", cursor.getString(3));
-                                    startActivity(routEdit);
-                                    MainActivity.this.finish();
-                                }
-                                else if (i == 1) {
-                                    builder.setTitle("Peringatan!")
-                                            .setMessage("Yakin hapus data ini?")
-                                            .setCancelable(false)
-                                            .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                    SQLiteDatabase db = dbHelper.getReadableDatabase();
-                                                    cursor = db.rawQuery("SELECT * FROM tools", null);
-                                                    if (cursor != null && cursor.moveToFirst()) {
-                                                        int id = cursor.getInt(0);
-                                                        Boolean deleteData = dbHelper.deleteData(id);
-                                                        if (deleteData == true) {
-                                                            allData();
-                                                            Intent intent = getIntent();
-                                                            overridePendingTransition(0, 0);
-                                                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                                            finish();
-                                                            overridePendingTransition(0, 0);
-                                                            startActivity(intent);
-                                                            Toast.makeText(MainActivity.this,
-                                                                    "Data berhasil dihapus!",
-                                                                    Toast.LENGTH_LONG).show();
-                                                        } else {
-                                                            builder.setTitle("Peringatan!")
-                                                                    .setMessage("Oops.. galagal delete data!")
-                                                                    .setCancelable(false)
-                                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                                        @Override
-                                                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                                                            dialogInterface.cancel();
-                                                                        }
-                                                                    }).show();
-                                                        }
-                                                    }
-                                                    else if (cursor != null && cursor.moveToPosition(i)) {
-                                                        int id = cursor.getInt(0);
-                                                        Boolean deleteData = dbHelper.deleteData(id);
-                                                        if (deleteData == true) {
-                                                            allData();
-                                                            Toast.makeText(MainActivity.this,
-                                                                    "Data berhasil dihapus!",
-                                                                    Toast.LENGTH_LONG).show();
-                                                        } else {
-                                                            builder.setTitle("Peringatan!")
-                                                                    .setMessage("Oops.. galagal delete data!")
-                                                                    .setCancelable(false)
-                                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                                        @Override
-                                                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                                                            dialogInterface.cancel();
-                                                                        }
-                                                                    }).show();
-                                                        }
-                                                    }
-                                                }
-                                            })
-                                            .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                    dialogInterface.cancel();
-                                                }
-                                            }).show();
-                                }
-                            }
-                        }).show();
             }
         });
 
-        allData();
+        welcomeUser.setText(displayUsername + "!");
+        appLists.setSelected(true);
+        displayData();
 
         fab_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,29 +110,171 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void allData() {
-        cursor = dbHelper.viewData();
-        if (cursor.getCount() == 0) {
-            Toast.makeText(this, "Tidak ada data untuk ditampilkan!", Toast.LENGTH_LONG).show();
+    public void displayData() {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String query = "SELECT * FROM tools";
+        Cursor cursor = db.rawQuery(query, null);
+
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(0);
+            String title = cursor.getString(1);
+            String description = cursor.getString(2);
+            String link = cursor.getString(3);
+            byte[] image = cursor.getBlob(4);
+
+            modelArrayList.add(new Model(id, title, description, link, image));
         }
-        else {
-            Toast.makeText(this, "Ada " + cursor.getCount() + " data!", Toast.LENGTH_LONG).show();
-            SQLiteDatabase database = dbHelper.getReadableDatabase();
-            try {
-                String query = "SELECT * FROM tools";
-                cursor = database.rawQuery(query, null);
-                adapter = new SimpleCursorAdapter(this, R.layout.list_row, cursor,
-                        new String[] {"title","description"},
-                        new int[] {R.id.nama_aplikasi, R.id.deskripsi});
-                appLists.setAdapter(adapter);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+
+        Custom adapter = new Custom(this, R.layout.list_row, modelArrayList);
+        appLists.setAdapter(adapter);
     }
 
     public void exit (View view) {
 
+    }
+
+    private class Custom extends BaseAdapter{
+        private Context context;
+        private int layout;
+        private ArrayList<Model> modelArrayList = new ArrayList<>();
+
+        public Custom(Context context, int layout, ArrayList<Model> modelArrayList) {
+            this.context = context;
+            this.layout = layout;
+            this.modelArrayList = modelArrayList;
+        }
+
+        public class ViewHolder {
+            TextView title, description, edit, delete;
+            ImageView logo;
+        }
+
+        @Override
+        public int getCount() {
+            return modelArrayList.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return modelArrayList.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            ViewHolder holder = new ViewHolder();
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(layout, null);
+
+            holder.title = view.findViewById(R.id.nama_aplikasi);
+            holder.description = view.findViewById(R.id.deskripsi);
+            holder.logo = view.findViewById(R.id.logo);
+            holder.edit = view.findViewById(R.id.btn_edit);
+            holder.delete = view.findViewById(R.id.btn_delete);
+            view.setTag(holder);
+
+            Model model = modelArrayList.get(i);
+            holder.title.setText(model.getTitle());
+            holder.description.setText(model.getDescription());
+            byte[] image = model.getLogo();
+            Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+            holder.logo.setImageBitmap(bitmap);
+
+            holder.edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Bundle data = new Bundle();
+                    data.putInt("id", model.getId());
+                    data.putString("title", model.getTitle());
+                    data.putString("description", model.getDescription());
+                    data.putString("link", model.getLink());
+                    data.putByteArray("logo", model.getLogo());
+
+                    Intent intent = new Intent(MainActivity.this, AddDataActivity.class);
+                    intent.putExtra("data", data);
+                    startActivity(intent);
+                }
+            });
+
+            holder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    id = model.getId();
+                    SQLiteDatabase db = dbHelper.getReadableDatabase();
+                    cursor = db.rawQuery("SELECT * FROM tools", null);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                    builder.setTitle("Peringatan!")
+                            .setMessage("Yakin mau keluar dari aplikasi?")
+                            .setCancelable(false)
+                            .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    if (cursor != null && cursor.moveToFirst()) {
+                                        Boolean deleteData = dbHelper.deleteData(id);
+                                        Toast.makeText(MainActivity.this,
+                                                "test1!",
+                                                Toast.LENGTH_LONG).show();
+                                        if (deleteData == true) {
+                                            displayData();
+                                            Intent intent = getIntent();
+                                            overridePendingTransition(0, 0);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                            finish();
+                                            overridePendingTransition(0, 0);
+                                            startActivity(intent);
+                                            Toast.makeText(MainActivity.this,
+                                                    "Data berhasil dihapus!",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                        else {
+                                            builder.setTitle("Peringatan!")
+                                                .setMessage("Oops.. galagal delete data!")
+                                                .setCancelable(false)
+                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        dialogInterface.cancel();
+                                                    }
+                                                }).show();
+                                        }
+                                    }
+                                    else if (cursor != null && cursor.moveToPosition(i)) {
+                                        Boolean deleteData = dbHelper.deleteData(id);
+                                        if (deleteData == true) {
+                                            displayData();
+                                            Toast.makeText(MainActivity.this,
+                                                    "Data berhasil dihapus!",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                        else {
+                                            builder.setTitle("Peringatan!")
+                                                .setMessage("Oops.. galagal delete data!")
+                                                .setCancelable(false)
+                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        dialogInterface.cancel();
+                                                    }
+                                                }).show();
+                                        }
+                                    }
+                                }
+                            })
+                            .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.cancel();
+                                }
+                            }).show();
+                }
+            });
+
+            return view;
+        }
     }
 }

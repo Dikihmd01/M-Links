@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+
 public class DBHelper extends SQLiteOpenHelper {
     private static final String databaseName = "mlinks";
     private static final String tableAuth = "auth";
@@ -39,14 +42,14 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public Boolean insertData(String title, String description, String link) {
+    public Boolean insertData(String title, String description, String link, byte[] logo) {
         SQLiteDatabase database = this.getWritableDatabase();
+
         ContentValues contentValues = new ContentValues();
         contentValues.put("title", title);
         contentValues.put("description", description);
         contentValues.put("link", link);
-//        contentValues.put("logo", imageUri);
-
+        contentValues.put("logo", logo);
         long result = database.insert("tools", null, contentValues);
         if (result == -1) {
             return false;
@@ -62,6 +65,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("title", title);
         contentValues.put("description", description);
         contentValues.put("link", link);
+//        contentValues.put("logo", logo);
 
         long result = database.update("tools", contentValues, "_id=" + id, null);
         if (result == -1) {
