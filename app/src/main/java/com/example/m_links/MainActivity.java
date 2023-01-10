@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent routeAddForm = new Intent(MainActivity.this, AddDataActivity.class);
                 startActivity(routeAddForm);
-                MainActivity.this.finish();
             }
         });
 
@@ -187,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public class ViewHolder {
-            TextView title, description, edit, delete;
+            TextView title, description, edit, delete, visit;
             ImageView logo;
         }
 
@@ -217,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
             holder.logo = view.findViewById(R.id.logo);
             holder.edit = view.findViewById(R.id.btn_edit);
             holder.delete = view.findViewById(R.id.btn_delete);
+            holder.visit = view.findViewById(R.id.btn_visit);
             view.setTag(holder);
 
             Model model = modelArrayList.get(i);
@@ -225,6 +225,15 @@ public class MainActivity extends AppCompatActivity {
             byte[] image = model.getLogo();
             Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
             holder.logo.setImageBitmap(bitmap);
+
+            holder.visit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent browser = new Intent(Intent.ACTION_VIEW);
+                    browser.setData(Uri.parse(model.getLink()));
+                    startActivity(browser);
+                }
+            });
 
             holder.edit.setOnClickListener(new View.OnClickListener() {
                 @Override
