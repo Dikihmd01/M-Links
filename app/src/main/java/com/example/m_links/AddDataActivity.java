@@ -110,7 +110,7 @@ public class AddDataActivity extends AppCompatActivity {
                 else {
 //                    updateData();
                     if (getIntent().getBundleExtra("data")!= null) {
-                        Boolean updateData = dbHelper.updateDate(getTitle, getDescription, getLink, id);
+                        Boolean updateData = dbHelper.updateDate(getTitle, getDescription, getLink, id, imageViewToBy(logoImg));
 
                         if (updateData == true) {
                             Toast.makeText(AddDataActivity.this,

@@ -13,6 +13,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -87,16 +89,33 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        keyword.setOnKeyListener(new View.OnKeyListener() {
+        keyword.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
-                if (keyCode == keyEvent.KEYCODE_ENTER) {
-                    searchData();
-                    return true;
-                }
-                return false;
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                searchData();
             }
         });
+
+//        keyword.setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+//                if (keyCode == keyEvent.KEYCODE_ENTER) {
+//                    searchData();
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override

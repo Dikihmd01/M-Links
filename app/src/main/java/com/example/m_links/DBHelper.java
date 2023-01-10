@@ -59,13 +59,13 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Boolean updateDate(String title, String description, String link, Integer id) {
+    public Boolean updateDate(String title, String description, String link, Integer id, byte[] logo) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("title", title);
         contentValues.put("description", description);
         contentValues.put("link", link);
-//        contentValues.put("logo", logo);
+        contentValues.put("logo", logo);
 
         long result = database.update("tools", contentValues, "_id=" + id, null);
         if (result == -1) {
