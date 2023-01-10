@@ -14,12 +14,14 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView exitButton, searchButton;
     FloatingActionButton fab_add;
     Cursor cursor;
-//    ListAdapter adapter;
+    EditText keyword;
     ListView appLists;
     DBHelper dbHelper;
     ArrayList<Model> modelArrayList =new ArrayList<>();
@@ -53,13 +55,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         SharedPreferences prefs = getSharedPreferences("sessionUser", MODE_PRIVATE);
-        String displayUsername = prefs.getString("name", "");//"No name defined" is the default value.
+        String displayUsername = prefs.getString("name", "");
 
         welcomeUser = (TextView) findViewById(R.id.nama_user);
         exitButton = (ImageView) findViewById(R.id.btn_exit);
         searchButton = (ImageView) findViewById(R.id.btn_search);
         fab_add = (FloatingActionButton) findViewById(R.id.fab_add);
         appLists = (ListView) findViewById(R.id.list_aplikasi);
+        keyword = (EditText) findViewById(R.id.search);
         dbHelper = new DBHelper(this);
 
 
@@ -82,6 +85,24 @@ public class MainActivity extends AppCompatActivity {
                 Intent routeAddForm = new Intent(MainActivity.this, AddDataActivity.class);
                 startActivity(routeAddForm);
                 MainActivity.this.finish();
+            }
+        });
+
+        keyword.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if (keyCode == keyEvent.KEYCODE_ENTER) {
+                    searchData();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchData();
             }
         });
 
@@ -108,6 +129,27 @@ public class MainActivity extends AppCompatActivity {
                         }).show();
             }
         });
+    }
+
+    public void searchData() {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String query = "SELECT * FROM tools WHERE title LIKE '" + keyword.getText().toString() + "%'";
+        Cursor cursor = db.rawQuery(query, null);
+
+        modelArrayList.clear();
+
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(0);
+            String title = cursor.getString(1);
+            String description = cursor.getString(2);
+            String link = cursor.getString(3);
+            byte[] image = cursor.getBlob(4);
+
+            modelArrayList.add(new Model(id, title, description, link, image));
+        }
+
+        Custom adapter = new Custom(this, R.layout.list_row, modelArrayList);
+        appLists.setAdapter(adapter);
     }
 
     public void displayData() {
