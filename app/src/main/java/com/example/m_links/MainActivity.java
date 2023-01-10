@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,8 +48,9 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Model> modelArrayList =new ArrayList<>();
     private int id = -1;
 
-    String[] title_list, description_list, link_list, logo_list;
-    int[] id_list;
+    private SharedPreferences prefs;
+    private int isAdmin;
+    private String displayUsername;
 
 
     @Override
@@ -56,8 +58,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences prefs = getSharedPreferences("sessionUser", MODE_PRIVATE);
-        String displayUsername = prefs.getString("name", "");
+        prefs = getSharedPreferences("sessionUser", MODE_PRIVATE);
+        displayUsername = prefs.getString("name", "");
+        isAdmin = prefs.getInt("is_admin", 0);
 
         welcomeUser = (TextView) findViewById(R.id.nama_user);
         exitButton = (ImageView) findViewById(R.id.btn_exit);
@@ -77,7 +80,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        welcomeUser.setText(displayUsername + "!");
+        if (isAdmin == 1) {
+            welcomeUser.setText(displayUsername + " (" + "Admin)");
+        }
+        else {
+            welcomeUser.setText(displayUsername);
+        }
         appLists.setSelected(true);
         displayData();
 
@@ -105,17 +113,6 @@ public class MainActivity extends AppCompatActivity {
                 searchData();
             }
         });
-
-//        keyword.setOnKeyListener(new View.OnKeyListener() {
-//            @Override
-//            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
-//                if (keyCode == keyEvent.KEYCODE_ENTER) {
-//                    searchData();
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,8 +159,9 @@ public class MainActivity extends AppCompatActivity {
             String description = cursor.getString(2);
             String link = cursor.getString(3);
             byte[] image = cursor.getBlob(4);
+            int isAccepted = cursor.getInt(5);
 
-            modelArrayList.add(new Model(id, title, description, link, image));
+            modelArrayList.add(new Model(id, title, description, link, image, isAccepted));
         }
 
         Custom adapter = new Custom(this, R.layout.list_row, modelArrayList);
@@ -172,7 +170,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void displayData() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String query = "SELECT * FROM tools";
+        String query;
+        if (isAdmin == 0) {
+            query = "SELECT * FROM tools WHERE is_accepted = 1";
+        }
+        else {
+            query = "SELECT * FROM tools";
+        }
         Cursor cursor = db.rawQuery(query, null);
 
         while (cursor.moveToNext()) {
@@ -181,8 +185,11 @@ public class MainActivity extends AppCompatActivity {
             String description = cursor.getString(2);
             String link = cursor.getString(3);
             byte[] image = cursor.getBlob(4);
+            int isAccepted = cursor.getInt(5);
+            Log.e("isicursoroooo", "getView: "+ isAccepted );
 
-            modelArrayList.add(new Model(id, title, description, link, image));
+
+            modelArrayList.add(new Model(id, title, description, link, image, isAccepted));
         }
 
         Custom adapter = new Custom(this, R.layout.list_row, modelArrayList);
@@ -205,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public class ViewHolder {
-            TextView title, description, edit, delete, visit;
+            TextView title, description, edit, delete, visit, accept;
             ImageView logo;
         }
 
@@ -236,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
             holder.edit = view.findViewById(R.id.btn_edit);
             holder.delete = view.findViewById(R.id.btn_delete);
             holder.visit = view.findViewById(R.id.btn_visit);
+            holder.accept = view.findViewById(R.id.btn_accept);
             view.setTag(holder);
 
             Model model = modelArrayList.get(i);
@@ -269,6 +277,31 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+
+            if (isAdmin == 1) {
+                holder.accept.setVisibility(View.VISIBLE);
+                holder.accept.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        id = model.getId();
+                        try {
+                            dbHelper.acceptData(id);
+                            Toast.makeText(MainActivity.this,
+                                    "Aplikasi telah disetujui! ",
+                                    Toast.LENGTH_SHORT).show();
+
+                        } catch (Exception e) {
+                            Toast.makeText(MainActivity.this,
+                                    "Terjadi kesalahan!",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                if (model.getIsAccepted() == 1) {
+                    holder.accept.setVisibility(View.GONE);
+                }
+            }
 
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override

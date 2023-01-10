@@ -20,10 +20,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String queryCreateTableAuth = "CREATE TABLE " + tableAuth + "(username TEXT PRIMARY KEY, password TEXT)";
+        String queryCreateTableAuth = "CREATE TABLE " + tableAuth + "(username TEXT PRIMARY KEY, password TEXT, is_admin INTEGER)";
         String queryCreateTableTools = "CREATE TABLE " + tableTools + "(" +
                 "_id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, description TEXT, " +
-                "link TEXT, logo BLOB)";
+                "link TEXT, logo BLOB, is_accepted INTEGER)";
 
         // Execute queries
         sqLiteDatabase.execSQL(queryCreateTableAuth);
@@ -42,6 +42,12 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
+    public void acceptData(Integer id) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        String query = "UPDATE tools SET is_accepted=1 WHERE _id=" + id;
+        database.execSQL(query);
+    }
+
     public Boolean insertData(String title, String description, String link, byte[] logo) {
         SQLiteDatabase database = this.getWritableDatabase();
 
@@ -50,6 +56,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("description", description);
         contentValues.put("link", link);
         contentValues.put("logo", logo);
+        contentValues.put("is_accepted", 0);
         long result = database.insert("tools", null, contentValues);
         if (result == -1) {
             return false;
@@ -88,11 +95,28 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    public Boolean insertAdmin(String username, String password) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("username", username);
+        contentValues.put("password", password);
+        contentValues.put("is_admin", 1);
+
+        long result = database.insert("auth", null, contentValues);
+        if (result == -1) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
     public Boolean insertAuth(String username, String password) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("username", username);
         contentValues.put("password", password);
+        contentValues.put("is_admin", 0);
 
         long result = database.insert("auth", null, contentValues);
         if (result == -1) {

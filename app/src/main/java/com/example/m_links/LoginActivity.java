@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +26,14 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // super user admin
+        dbHelper = new DBHelper(getApplicationContext());
+
+        Boolean checkUser = dbHelper.checkUsername("admin");
+        if (checkUser == false) {
+            dbHelper.insertAdmin("admin", "admin123");
+        }
 
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
@@ -55,9 +65,16 @@ public class LoginActivity extends AppCompatActivity {
                     if (checkUserPass == true) {
                         Toast.makeText(getBaseContext(), "Anda berhasil login", Toast.LENGTH_LONG).show();
 
+                        SQLiteDatabase db = dbHelper.getReadableDatabase();
+                        String query = "SELECT * FROM auth WHERE username='" + getUsername + "'";
+                        Cursor cursor = db.rawQuery(query, null);
                         SharedPreferences.Editor editor = getSharedPreferences("sessionUser", MODE_PRIVATE).edit();
-                        editor.putString("name", getUsername);
-                        editor.apply();
+
+                        if (cursor.moveToNext()) {
+                            editor.putString("name", cursor.getString(0));
+                            editor.putInt("is_admin", cursor.getInt(2));
+                            editor.apply();
+                        }
 
 
                         username.setText("");
@@ -66,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                         Intent route = new Intent(LoginActivity.this, MainActivity.class);
                         route.putExtra("displayUsername", getUsername);
                         startActivity(route);
+                        LoginActivity.this.finish();
                     }
                     else {
                         //Toast.makeText(getBaseContext(), "Anda gagal login", Toast.LENGTH_LONG).show();

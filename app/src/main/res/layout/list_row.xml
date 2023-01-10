@@ -94,6 +94,17 @@
                     android:textStyle="bold"
                     android:textSize="15dp"
                     android:textColor="@color/text_gelap"/>
+
+                <TextView
+                    android:id="@+id/btn_accept"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Accept"
+                    android:visibility="gone"
+                    android:textStyle="bold"
+                    android:textSize="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/text_gelap"/>
         </LinearLayout>
 
     </RelativeLayout>

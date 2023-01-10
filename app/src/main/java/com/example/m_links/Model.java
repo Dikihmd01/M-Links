@@ -7,12 +7,23 @@ public class Model {
     private String link;
     private byte[] logo;
 
-    public Model(int id, String title, String description, String link, byte[] logo) {
+    public int getIsAccepted() {
+        return isAccepted;
+    }
+
+    public void setIsAccepted(int isAccepted) {
+        this.isAccepted = isAccepted;
+    }
+
+    private int isAccepted;
+
+    public Model(int id, String title, String description, String link, byte[] logo, int isAccepted) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.link = link;
         this.logo = logo;
+        this.isAccepted = isAccepted;
     }
 
     public int getId() {
