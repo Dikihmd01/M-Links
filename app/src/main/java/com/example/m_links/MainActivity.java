@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
         else {
+            dropDownFilter.setVisibility(View.GONE);
             welcomeUser.setText(displayUsername);
         }
         appLists.setSelected(true);
@@ -373,6 +374,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this,
                                     "Aplikasi telah disetujui! ",
                                     Toast.LENGTH_SHORT).show();
+                            displayData();
 
                         } catch (Exception e) {
                             Toast.makeText(MainActivity.this,
@@ -403,9 +405,6 @@ public class MainActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     if (cursor != null && cursor.moveToFirst()) {
                                         Boolean deleteData = dbHelper.deleteData(id);
-                                        Toast.makeText(MainActivity.this,
-                                                "test1!",
-                                                Toast.LENGTH_LONG).show();
                                         if (deleteData == true) {
                                             displayData();
                                             Intent intent = getIntent();
@@ -416,7 +415,7 @@ public class MainActivity extends AppCompatActivity {
                                             startActivity(intent);
                                             Toast.makeText(MainActivity.this,
                                                     "Data berhasil dihapus!",
-                                                    Toast.LENGTH_LONG).show();
+                                                    Toast.LENGTH_SHORT).show();
                                         }
                                         else {
                                             builder.setTitle("Peringatan!")
@@ -436,7 +435,7 @@ public class MainActivity extends AppCompatActivity {
                                             displayData();
                                             Toast.makeText(MainActivity.this,
                                                     "Data berhasil dihapus!",
-                                                    Toast.LENGTH_LONG).show();
+                                                    Toast.LENGTH_SHORT).show();
                                         }
                                         else {
                                             builder.setTitle("Peringatan!")
