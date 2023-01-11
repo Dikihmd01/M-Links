@@ -134,23 +134,36 @@ public class AddDataActivity extends AppCompatActivity {
                         }
                     }
                     else {
-                        Boolean insertData = dbHelper.insertData(getTitle, getDescription, getLink, imageViewToBy(logoImg));
-                        if (insertData == true) {
-                            Toast.makeText(AddDataActivity.this,
-                                    "Data berhasil disimpan!",
-                                    Toast.LENGTH_LONG).show();
+                        Boolean isValidURL = dbHelper.checkLink(getLink);
+                        if (isValidURL == true) {
+                            Boolean insertData = dbHelper.insertData(getTitle, getDescription, getLink, imageViewToBy(logoImg));
+                            if (insertData == true) {
+                                Toast.makeText(AddDataActivity.this,
+                                        "Data berhasil disimpan!",
+                                        Toast.LENGTH_LONG).show();
 
-                            title.setText("");
-                            description.setText("");
-                            link.setText("");
+                                title.setText("");
+                                description.setText("");
+                                link.setText("");
 
-                            Intent routeMain = new Intent(AddDataActivity.this, MainActivity.class);
-                            startActivity(routeMain);
-                            AddDataActivity.this.finish();
+                                Intent routeMain = new Intent(AddDataActivity.this, MainActivity.class);
+                                startActivity(routeMain);
+                                AddDataActivity.this.finish();
+                            } else {
+                                builder.setTitle("Peringatan!")
+                                        .setMessage("Oops.. Terjadi kesalahan!")
+                                        .setCancelable(false)
+                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                dialogInterface.cancel();
+                                            }
+                                        }).show();
+                            }
                         }
                         else {
                             builder.setTitle("Peringatan!")
-                                    .setMessage("Oops.. Terjadi kesalahan!")
+                                    .setMessage("Oops.. Link tidak valid!")
                                     .setCancelable(false)
                                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                         @Override

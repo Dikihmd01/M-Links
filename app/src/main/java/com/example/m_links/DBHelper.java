@@ -5,9 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Patterns;
+import android.webkit.URLUtil;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class DBHelper extends SQLiteOpenHelper {
     private static final String databaseName = "mlinks";
@@ -151,6 +155,10 @@ public class DBHelper extends SQLiteOpenHelper {
         else {
             return false;
         }
+    }
+
+    public Boolean checkLink(String link) {
+        return URLUtil.isValidUrl(link) && Patterns.WEB_URL.matcher(link).matches();
     }
 
     public Cursor viewData() {
