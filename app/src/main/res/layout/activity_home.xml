@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_gelap"
+    android:padding="32dp"
+    tools:context=".HomeActivity">
+
+    <TextView
+        android:id="@+id/welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="Welcome, "
+        android:textColor="@color/text_gelap"
+        android:textSize="22dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/nama_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:layout_toRightOf="@id/welcome"
+        android:text="User"
+        android:textColor="@color/text_gelap"
+        android:textSize="22dp"
+        android:textStyle="bold" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btn_home"
+        android:layout_width="155dp"
+        android:layout_height="155dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/btn_gelap"
+        android:layout_below="@id/nama_user">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:src="@drawable/home2" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btn_data"
+        android:layout_width="155dp"
+        android:layout_height="155dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/btn_gelap"
+        android:layout_below="@id/nama_user"
+        android:layout_toRightOf="@id/btn_home">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/data2"
+            android:padding="20dp"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btn_tutor"
+        android:layout_width="155dp"
+        android:layout_height="155dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="15dp"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/btn_gelap"
+        android:layout_below="@id/btn_home">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:src="@drawable/tutor2" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btn_keluar"
+        android:layout_width="155dp"
+        android:layout_height="155dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="15dp"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/btn_gelap"
+        android:layout_below="@id/btn_data"
+        android:layout_toRightOf="@id/btn_tutor">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/keluar2"
+            android:padding="20dp"/>
+
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>
