@@ -229,9 +229,12 @@ public class MainActivity extends AppCompatActivity {
             query = "SELECT * FROM tools WHERE title LIKE '" + keyword.getText().toString() + "%' AND + " +
                     "is_accepted = 1";
         }
-        else {
+        else if (textFilter.getText().toString() == "not accepted") {
             query = "SELECT * FROM tools WHERE title LIKE '" + keyword.getText().toString() + "%' AND + " +
                     "is_accepted = 0";
+        }
+        else {
+            query = "SELECT * FROM tools WHERE title LIKE '" + keyword.getText().toString() + "%'";
         }
         Cursor cursor = db.rawQuery(query, null);
 
