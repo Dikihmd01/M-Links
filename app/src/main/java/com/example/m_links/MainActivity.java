@@ -38,8 +38,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView welcomeUser;
-    ImageView exitButton, searchButton;
+    TextView welcomeUser, textFilter;
+    ImageView exitButton, searchButton, dropDownFilter;
     FloatingActionButton fab_add;
     Cursor cursor;
     EditText keyword;
@@ -63,8 +63,10 @@ public class MainActivity extends AppCompatActivity {
         isAdmin = prefs.getInt("is_admin", 0);
 
         welcomeUser = (TextView) findViewById(R.id.nama_user);
+        textFilter = (TextView) findViewById(R.id.textFilter);
         exitButton = (ImageView) findViewById(R.id.btn_exit);
         searchButton = (ImageView) findViewById(R.id.btn_search);
+        dropDownFilter = (ImageView) findViewById(R.id.dropDownFilter);
         fab_add = (FloatingActionButton) findViewById(R.id.fab_add);
         appLists = (ListView) findViewById(R.id.list_aplikasi);
         keyword = (EditText) findViewById(R.id.search);
@@ -82,6 +84,31 @@ public class MainActivity extends AppCompatActivity {
 
         if (isAdmin == 1) {
             welcomeUser.setText(displayUsername + " (" + "Admin)");
+
+            dropDownFilter.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final CharSequence[] items = {"Semua", "Disetujui", "Belum Disetujui"};
+                    builder.setTitle("Filter Berdasarkan")
+                            .setItems(items, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    if (i == 0) {
+                                        textFilter.setText("all");
+                                        displayData();
+                                    }
+                                    else if (i == 1) {
+                                        textFilter.setText("accepted");
+                                        filterDataAccepted();
+                                    }
+                                    else {
+                                        textFilter.setText("not accepted");
+                                        filterDataNotAccepted();
+                                    }
+                                }
+                            }).show();
+                }
+            });
         }
         else {
             welcomeUser.setText(displayUsername);
@@ -146,9 +173,65 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void filterDataAccepted() {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String query = "SELECT * FROM tools WHERE is_accepted = 1";
+        Cursor cursor = db.rawQuery(query, null);
+
+        modelArrayList.clear();
+
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(0);
+            String title = cursor.getString(1);
+            String description = cursor.getString(2);
+            String link = cursor.getString(3);
+            byte[] image = cursor.getBlob(4);
+            int isAccepted = cursor.getInt(5);
+
+            modelArrayList.add(new Model(id, title, description, link, image, isAccepted));
+        }
+
+        Custom adapter = new Custom(this, R.layout.list_row, modelArrayList);
+        appLists.setAdapter(adapter);
+    }
+
+    public void filterDataNotAccepted() {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String query = "SELECT * FROM tools WHERE is_accepted = 0";
+        Cursor cursor = db.rawQuery(query, null);
+
+        modelArrayList.clear();
+
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(0);
+            String title = cursor.getString(1);
+            String description = cursor.getString(2);
+            String link = cursor.getString(3);
+            byte[] image = cursor.getBlob(4);
+            int isAccepted = cursor.getInt(5);
+
+            modelArrayList.add(new Model(id, title, description, link, image, isAccepted));
+        }
+
+        Custom adapter = new Custom(this, R.layout.list_row, modelArrayList);
+        appLists.setAdapter(adapter);
+    }
+
     public void searchData() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String query = "SELECT * FROM tools WHERE title LIKE '" + keyword.getText().toString() + "%'";
+        String query;
+
+        if (textFilter.getText().toString() == "all") {
+            query = "SELECT * FROM tools WHERE title LIKE '" + keyword.getText().toString() + "%'";
+        }
+        else if (textFilter.getText().toString() == "accepted") {
+            query = "SELECT * FROM tools WHERE title LIKE '" + keyword.getText().toString() + "%' AND + " +
+                    "is_accepted = 1";
+        }
+        else {
+            query = "SELECT * FROM tools WHERE title LIKE '" + keyword.getText().toString() + "%' AND + " +
+                    "is_accepted = 0";
+        }
         Cursor cursor = db.rawQuery(query, null);
 
         modelArrayList.clear();
@@ -175,6 +258,7 @@ public class MainActivity extends AppCompatActivity {
             query = "SELECT * FROM tools WHERE is_accepted = 1";
         }
         else {
+            modelArrayList.clear();
             query = "SELECT * FROM tools";
         }
         Cursor cursor = db.rawQuery(query, null);

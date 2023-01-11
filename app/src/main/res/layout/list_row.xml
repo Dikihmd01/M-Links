@@ -12,26 +12,23 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:padding="10dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="10dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/logo"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:src="@drawable/login_terang"
-                    app:civ_border_color="#FF000000"
-                    app:civ_border_width="2dp" />
+            android:id="@+id/logo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/login_terang"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp" />
 
         <TextView
             android:id="@+id/nama_aplikasi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
             android:layout_toRightOf="@id/logo"
             android:text="Name App or Website"
             android:textColor="@color/text_gelap"
@@ -41,8 +38,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginLeft="93dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginLeft="78dp"
+            android:layout_marginTop="25dp"
             android:layout_marginRight="60dp"
             android:background="@color/text_gelap" />
 
@@ -62,9 +59,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_below="@id/deskripsi"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="60dp">
+            android:layout_alignParentRight="true">
 
                 <TextView
                     android:id="@+id/btn_visit"
