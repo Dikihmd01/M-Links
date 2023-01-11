@@ -18,9 +18,19 @@
         android:textStyle="bold"
         android:layout_marginBottom="25dp"/>
 
-    <VideoView
-        android:id="@+id/video"
+    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
         android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+        android:layout_height="wrap_content"
+        android:id="@+id/video"
+        app:autoPlay="true"
+        app:videoId=""/>
+
+    <Button
+        android:id="@+id/btn_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Play Video"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"/>
 
 </LinearLayout>
