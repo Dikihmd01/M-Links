@@ -71,7 +71,6 @@
                     android:text="Visit"
                     android:textStyle="bold"
                     android:textSize="15dp"
-                    android:layout_marginRight="20dp"
                     android:textColor="@color/text_gelap"/>
 
                 <TextView
@@ -81,7 +80,9 @@
                     android:text="Edit"
                     android:textStyle="bold"
                     android:textSize="15dp"
+                    android:visibility="gone"
                     android:textColor="@color/text_gelap"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"/>
 
                 <TextView
@@ -90,6 +91,7 @@
                     android:layout_height="wrap_content"
                     android:text="Delete"
                     android:textStyle="bold"
+                    android:visibility="gone"
                     android:textSize="15dp"
                     android:textColor="@color/text_gelap"/>
 

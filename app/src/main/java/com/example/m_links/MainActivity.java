@@ -370,6 +370,8 @@ public class MainActivity extends AppCompatActivity {
 
             if (isAdmin == 1) {
                 holder.accept.setVisibility(View.VISIBLE);
+                holder.edit.setVisibility(View.VISIBLE);
+                holder.delete.setVisibility(View.VISIBLE);
                 holder.accept.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
