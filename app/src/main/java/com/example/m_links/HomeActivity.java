@@ -71,7 +71,7 @@ public class HomeActivity extends AppCompatActivity {
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                builder.setTitle("Peringatan!")
+                builder.setTitle("Konfirmasi!")
                         .setMessage("Yakin mau keluar dari aplikasi?")
                         .setCancelable(false)
                         .setPositiveButton("Ya", new DialogInterface.OnClickListener() {

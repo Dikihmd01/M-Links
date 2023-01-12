@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                builder.setTitle("Peringatan!")
+                builder.setTitle("Konfirmasi!")
                         .setMessage("Yakin mau keluar dari aplikasi?")
                         .setCancelable(false)
                         .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
@@ -375,19 +375,34 @@ public class MainActivity extends AppCompatActivity {
                 holder.accept.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        id = model.getId();
-                        try {
-                            dbHelper.acceptData(id);
-                            Toast.makeText(MainActivity.this,
-                                    "Aplikasi telah disetujui! ",
-                                    Toast.LENGTH_SHORT).show();
-                            displayData();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Konfirmasi!")
+                                .setMessage("Yakin akan menyetujui apikasi ini?")
+                                .setCancelable(false)
+                                .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        id = model.getId();
+                                        try {
+                                            dbHelper.acceptData(id);
+                                            Toast.makeText(MainActivity.this,
+                                                    "Aplikasi telah disetujui! ",
+                                                    Toast.LENGTH_SHORT).show();
+                                            displayData();
 
-                        } catch (Exception e) {
-                            Toast.makeText(MainActivity.this,
-                                    "Terjadi kesalahan!",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+                                        } catch (Exception e) {
+                                            Toast.makeText(MainActivity.this,
+                                                    "Terjadi kesalahan!",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                })
+                                .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.cancel();
+                                    }
+                                }).show();
                     }
                 });
 
@@ -404,8 +419,8 @@ public class MainActivity extends AppCompatActivity {
                     cursor = db.rawQuery("SELECT * FROM tools", null);
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-                    builder.setTitle("Peringatan!")
-                            .setMessage("Yakin mau keluar dari aplikasi?")
+                    builder.setTitle("Konfirmasi!")
+                            .setMessage("Yakin mau hapus data ini?")
                             .setCancelable(false)
                             .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
                                 @Override
