@@ -36,7 +36,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
         app:cardCornerRadius="20dp"
-        app:cardBackgroundColor="@color/btn_gelap"
+        app:cardBackgroundColor="@color/teal_700"
         android:layout_below="@id/nama_user">
 
         <ImageView

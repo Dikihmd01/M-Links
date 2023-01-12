@@ -22,15 +22,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/video"
-        app:autoPlay="true"
-        app:videoId=""/>
+        app:autoPlay="false"
+        app:videoId="S0Q4gqBUs7c"
+        tools:ignore="MissingClass" />
 
-    <Button
-        android:id="@+id/btn_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Play Video"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"/>
+<!--    <Button-->
+<!--        android:id="@+id/btn_play"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Play Video"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_marginTop="20dp"/>-->
 
 </LinearLayout>

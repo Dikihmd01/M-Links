@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                         username.setText("");
                         password.setText("");
 
-                        Intent route = new Intent(LoginActivity.this, MainActivity.class);
+                        Intent route = new Intent(LoginActivity.this, HomeActivity.class);
                         route.putExtra("displayUsername", getUsername);
                         startActivity(route);
                         LoginActivity.this.finish();

@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         prefs = getSharedPreferences("sessionUser", MODE_PRIVATE);
         displayUsername = prefs.getString("name", "");
         isAdmin = prefs.getInt("is_admin", 0);
