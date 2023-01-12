@@ -12,4 +12,7 @@
     <color name="btn_gelap">#256D85</color>
     <color name="text_gelap" tools:override="true">#DFF6FF</color>
 
+    <color name="bg_terang">#62B6B7</color>
+    <color name="btn_terang">#439A97</color>
+
 </resources>

@@ -2,23 +2,30 @@ package com.example.m_links;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private SharedPreferences prefs;
+    private SharedPreferences prefs, prefsMode;
+    private SharedPreferences.Editor editor;
     private int isAdmin;
     private String displayUsername;
 
     private TextView welcomeUser;
     private CardView homeButton, mainButton, guideButton, exitButton;
+    private Switch darkAndLightMode;
+    private boolean isDarkMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +37,32 @@ public class HomeActivity extends AppCompatActivity {
         mainButton = (CardView) findViewById(R.id.btn_data);
         guideButton = (CardView) findViewById(R.id.btn_tutor);
         exitButton = (CardView) findViewById(R.id.btn_keluar);
+
+        darkAndLightMode = (Switch) findViewById(R.id.dark_mode);
+        prefsMode = getSharedPreferences("mode", Context.MODE_PRIVATE);
+        isDarkMode = prefsMode.getBoolean("isDarkMode", false);
+
+        if (isDarkMode) {
+            darkAndLightMode.setChecked(true);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+
+        darkAndLightMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isDarkMode) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    editor = prefsMode.edit();
+                    editor.putBoolean("isDarkMode", false);
+                }
+                else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    editor = prefsMode.edit();
+                    editor.putBoolean("isDarkMode", true);
+                }
+                editor.apply();
+            }
+        });
 
         prefs = getSharedPreferences("sessionUser", MODE_PRIVATE);
         displayUsername = prefs.getString("name", "");
@@ -66,7 +99,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
 
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override

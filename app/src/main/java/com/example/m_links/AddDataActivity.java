@@ -7,13 +7,16 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -49,6 +52,10 @@ public class AddDataActivity extends AppCompatActivity {
     private Bitmap bitmap;
     private static final int REQUEST_CODE = 12;
 
+    private SharedPreferences prefsMode;
+    private SharedPreferences.Editor editor;
+    private boolean isDarkMode;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +69,21 @@ public class AddDataActivity extends AppCompatActivity {
         saveButton = (Button) findViewById(R.id.btn_save);
         cancelButton = (Button) findViewById(R.id.btn_cancel);
         pageTitle = (TextView) findViewById(R.id.page_title);
+
+        prefsMode = getSharedPreferences("mode", Context.MODE_PRIVATE);
+        isDarkMode = prefsMode.getBoolean("isDarkMode", false);
+
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            description.setBackgroundResource(R.drawable.deskripsi);
+        }
+        else {
+            description.setBackgroundResource(R.drawable.deskripsi_terang);
+        }
+        saveButton.setBackgroundResource(R.drawable.btn_gelap);
+        cancelButton.setBackgroundResource(R.drawable.btn_gelap);
+        editor = prefsMode.edit();
+        editor.apply();
 
         dbHelper = new DBHelper(this);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

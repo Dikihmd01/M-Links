@@ -58,8 +58,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         prefs = getSharedPreferences("sessionUser", MODE_PRIVATE);
         displayUsername = prefs.getString("name", "");
         isAdmin = prefs.getInt("is_admin", 0);
@@ -75,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         dbHelper = new DBHelper(this);
 
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -417,7 +415,7 @@ public class MainActivity extends AppCompatActivity {
                     id = model.getId();
                     SQLiteDatabase db = dbHelper.getReadableDatabase();
                     cursor = db.rawQuery("SELECT * FROM tools", null);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogCustom);
 
                     builder.setTitle("Konfirmasi!")
                             .setMessage("Yakin mau hapus data ini?")

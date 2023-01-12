@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_gelap"
+    style="@style/screen"
     android:padding="32dp"
     tools:context=".HomeActivity">
 
@@ -29,6 +29,12 @@
         android:textSize="22dp"
         android:textStyle="bold" />
 
+    <Switch
+        android:id="@+id/dark_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"/>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/btn_home"
         android:layout_width="155dp"
@@ -36,14 +42,14 @@
         android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
         app:cardCornerRadius="20dp"
-        app:cardBackgroundColor="@color/teal_700"
+        style="@style/cardViewIcon"
         android:layout_below="@id/nama_user">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="20dp"
-            android:src="@drawable/home2" />
+            style="@style/homeMenu" />
 
     </androidx.cardview.widget.CardView>
 
@@ -54,14 +60,14 @@
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
         app:cardCornerRadius="20dp"
-        app:cardBackgroundColor="@color/btn_gelap"
+        style="@style/cardViewIcon"
         android:layout_below="@id/nama_user"
         android:layout_toRightOf="@id/btn_home">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/data2"
+            style="@style/dataMenu"
             android:padding="20dp"/>
 
     </androidx.cardview.widget.CardView>
@@ -73,14 +79,14 @@
         android:layout_marginTop="25dp"
         android:layout_marginRight="15dp"
         app:cardCornerRadius="20dp"
-        app:cardBackgroundColor="@color/btn_gelap"
+        style="@style/cardViewIcon"
         android:layout_below="@id/btn_home">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="20dp"
-            android:src="@drawable/tutor2" />
+            style="@style/guideMenu" />
 
     </androidx.cardview.widget.CardView>
 
@@ -91,14 +97,14 @@
         android:layout_marginTop="25dp"
         android:layout_marginLeft="15dp"
         app:cardCornerRadius="20dp"
-        app:cardBackgroundColor="@color/btn_gelap"
+        style="@style/cardViewIcon"
         android:layout_below="@id/btn_data"
         android:layout_toRightOf="@id/btn_tutor">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/keluar2"
+            style="@style/exitMenu"
             android:padding="20dp"/>
 
     </androidx.cardview.widget.CardView>

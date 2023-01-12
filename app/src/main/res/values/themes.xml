@@ -1,9 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.MLinks" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.MLinks" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/btn_gelap</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/btn_terang</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -16,5 +16,67 @@
         <item name="colorControlActivated">#ff5722</item>
         <item name="colorControlHighlight">#f44336</item>
 
+<!--        <item name="android:actionBarStyle">@style/screen</item>-->
+    </style>
+
+    <style name="screen">
+        <item name="android:background">@color/bg_terang</item>
+    </style>
+
+    <style name="cardViewIcon">
+        <item name="android:backgroundTint">@color/white</item>
+    </style>
+
+    <style name="faButton">
+        <item name="android:backgroundTint">#54A2A3</item>
+    </style>
+
+    <style name="textData">
+        <item name="android:textColor">@color/bg_terang</item>
+    </style>
+
+    <style name="textDescriptionData">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="saveButton">
+        <item name="android:textColor">@color/btn_terang</item>
+    </style>
+
+    <style name="loginLogo">
+        <item name="android:src">@drawable/login_terang</item>
+    </style>
+
+    <style name="registerLogo">
+        <item name="android:src">@drawable/regis_terang</item>
+    </style>
+
+    <style name="homeMenu">
+        <item name="android:src">@drawable/home</item>
+    </style>
+
+    <style name="dataMenu">
+        <item name="android:src">@drawable/data</item>
+    </style>
+
+    <style name="guideMenu">
+        <item name="android:src">@drawable/tutor</item>
+    </style>
+
+    <style name="exitMenu">
+        <item name="android:src">@drawable/keluar</item>
+    </style>
+
+    <style name="AlertDialogCustom" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle.textColor</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle.textColor</item>
+    </style>
+
+    <style name="PositiveButtonStyle.textColor" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="NegativeButtonStyle.textColor" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/black</item>
     </style>
 </resources>

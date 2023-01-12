@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_gelap"
+    style="@style/screen"
     android:orientation="vertical"
     android:padding="30dp"
     tools:context=".AddDataActivity">
@@ -49,7 +49,6 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/deskripsi"
         android:inputType="textMultiLine"
         android:textColor="@color/text_gelap"
         android:textColorHint="@color/text_gelap" />
@@ -79,40 +78,6 @@
         android:textColor="@color/text_gelap"
         android:textSize="16dp" />
 
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="38dp"-->
-<!--        android:background="@drawable/search"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:padding="5dp">-->
-
-<!--        <Button-->
-<!--            android:id="@+id/btn_add_file"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="@drawable/btn_gelap"-->
-<!--            android:paddingTop="-10dp"-->
-<!--            android:paddingBottom="-5dp"-->
-<!--            android:text="Choose File"-->
-<!--            android:textAllCaps="false"-->
-<!--            android:textColor="@color/text_gelap"-->
-<!--            android:textSize="14dp" />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/nama_file"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginLeft="10dp"-->
-<!--            android:text="No File Selected"-->
-<!--            android:textColor="@color/text_gelap" />-->
-
-<!--    </LinearLayout>-->
-
-<!--    <ImageView-->
-<!--        android:id="@+id/imagePreview"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content" />-->
-
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/logo"
         android:layout_width="60dp"
@@ -135,9 +100,9 @@
             android:layout_width="150dp"
             android:layout_height="36dp"
             android:layout_alignParentLeft="true"
-            android:background="@drawable/btn_gelap"
             android:text="Save"
             android:textAllCaps="false"
+            style="@style/saveButton"
             android:textSize="15dp"
             android:textStyle="bold" />
 
@@ -146,9 +111,9 @@
             android:layout_width="150dp"
             android:layout_height="36dp"
             android:layout_alignParentRight="true"
-            android:background="@drawable/btn_gelap"
             android:text="Cancel"
             android:textAllCaps="false"
+            style="@style/saveButton"
             android:textSize="15dp"
             android:textStyle="bold" />
     </RelativeLayout>

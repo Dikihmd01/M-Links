@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_gelap"
+    style="@style/screen"
     android:orientation="vertical"
     android:padding="20dp"
     tools:context=".LoginActivity">
@@ -15,7 +15,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="75dp"
         android:layout_marginBottom="15dp"
-        android:src="@drawable/login_gelap" />
+        style="@style/loginLogo" />
 
     <TextView
         android:layout_width="match_parent"
@@ -60,7 +60,7 @@
         android:background="@drawable/btn_gelap"
         android:text="Login"
         android:textAllCaps="false"
-        android:textColor="@color/text_gelap"
+        style="@style/saveButton"
         android:textSize="23dp"
         android:textStyle="bold" />
 
