@@ -15,6 +15,15 @@
         <item name="colorControlNormal">#d32f2f</item>
         <item name="colorControlActivated">#ff5722</item>
         <item name="colorControlHighlight">#f44336</item>
+
+        <item name="actionBarTheme">@style/AppBaseTheme.Toolbar</item>
+    </style>
+
+    <style name="AppBaseTheme.Toolbar" parent="Widget.AppCompat.ActionBar.Solid">
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="background">@color/btn_gelap</item>
+        <item name="android:background">@color/btn_gelap</item>
     </style>
 
     <style name="screen">
