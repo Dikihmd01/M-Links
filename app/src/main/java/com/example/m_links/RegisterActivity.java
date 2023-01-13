@@ -30,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton = (Button) findViewById(R.id.btn_register);
         loginButton = (TextView) findViewById(R.id.btn_login);
         dbHelper = new DBHelper(this);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,7 +40,15 @@ public class RegisterActivity extends AppCompatActivity {
                 String getConfirmPassword = confirmPassword.getText().toString();
 
                 if (getUsername.equals("") || getPassword.equals("") || getConfirmPassword.equals("")) {
-                    Toast.makeText(getBaseContext(), "Field tidak boleh kosong", Toast.LENGTH_LONG).show();
+                    builder.setTitle("Peringatan!")
+                            .setMessage("Field tidak boleh kosong!")
+                            .setCancelable(false)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.cancel();
+                                }
+                            }).show();
                 }
                 else {
                     if (getUsername.length() >= 8 || getPassword.length() >= 8 || getConfirmPassword.length() >= 8) {

@@ -71,7 +71,7 @@
                 android:textColorHint="@color/text_gelap"
                 android:textSize="23dp"
                 android:textColor="@color/text_gelap"
-                android:backgroundTint="@color/bg_gelap"
+                style="@style/searchEditText"
                 />
 
             <ImageView
@@ -106,6 +106,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:elevation="0dp"
+            app:elevation="0dp"
             style="@style/faButton"
             app:tint="@color/white"
             android:src="@drawable/ic_baseline_add_24"/>

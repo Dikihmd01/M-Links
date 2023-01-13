@@ -26,7 +26,7 @@
     </style>
 
     <style name="faButton">
-        <item name="android:backgroundTint">@color/bg_gelap</item>
+        <item name="android:backgroundTint">@color/btn_gelap</item>
     </style>
 
     <style name="textData">
@@ -76,5 +76,9 @@
 
     <style name="NegativeButtonStyle.textColor" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="searchEditText">
+        <item name="android:backgroundTint">@color/bg_gelap</item>
     </style>
 </resources>

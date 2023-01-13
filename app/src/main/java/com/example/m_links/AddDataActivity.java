@@ -86,7 +86,7 @@ public class AddDataActivity extends AppCompatActivity {
         editor.apply();
 
         dbHelper = new DBHelper(this);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
 
 //        if (getIntent().getIntExtra("valueId", 0) !=  0) {
 //            title.setText(getIntent().getStringExtra("valueTitle"));

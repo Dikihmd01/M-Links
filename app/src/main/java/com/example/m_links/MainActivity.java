@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -373,7 +374,7 @@ public class MainActivity extends AppCompatActivity {
                 holder.accept.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogCustom);
                         builder.setTitle("Konfirmasi!")
                                 .setMessage("Yakin akan menyetujui apikasi ini?")
                                 .setCancelable(false)

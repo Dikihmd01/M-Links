@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = (Button) findViewById(R.id.btn_login);
         registerButton = (TextView) findViewById(R.id.btn_resgister);
         dbHelper = new DBHelper(this);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
