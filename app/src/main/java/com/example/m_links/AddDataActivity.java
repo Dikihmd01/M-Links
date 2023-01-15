@@ -237,7 +237,7 @@ public class AddDataActivity extends AppCompatActivity {
     View.OnClickListener selectImageListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            String SELECT_TYPE = "image/";
+            String SELECT_TYPE = "image/*";
             String SELECT_PICTURE = "Select Picture";
 
             Intent intent = new Intent();

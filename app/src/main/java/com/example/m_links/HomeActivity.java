@@ -3,6 +3,7 @@ package com.example.m_links;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
 
 import android.content.Context;
@@ -24,7 +25,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private TextView welcomeUser;
     private CardView homeButton, mainButton, guideButton, exitButton;
-    private Switch darkAndLightMode;
+    private SwitchCompat darkAndLightMode;
     private boolean isDarkMode;
 
     @Override
@@ -38,7 +39,7 @@ public class HomeActivity extends AppCompatActivity {
         guideButton = (CardView) findViewById(R.id.btn_tutor);
         exitButton = (CardView) findViewById(R.id.btn_keluar);
 
-        darkAndLightMode = (Switch) findViewById(R.id.dark_mode);
+        darkAndLightMode = (SwitchCompat) findViewById(R.id.dark_mode);
         prefsMode = getSharedPreferences("mode", Context.MODE_PRIVATE);
         isDarkMode = prefsMode.getBoolean("isDarkMode", false);
 
